@@ -1,8 +1,10 @@
 package com.example.busschedule.data
 
+import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface BusDao {
 
     /**
@@ -10,9 +12,9 @@ interface BusDao {
      * Não se esqueça de ordenar a programação por horário de chegada.
      */
 
-    @Query("SELECT * from items WHERE id = :id")
-    fun getBusScheduleFor (id: Int) : Flow<BusSchedule>
+    @Query("SELECT * from schedule WHERE stop_name = :stopName ORDER BY arrival_time ASC")
+    fun getBusScheduleByStopName (stopName: String) : Flow<List<BusSchedule>>
 
-    @Query("SELECT * from items ORDER BY stopName ASC")
-    fun getFullBusSchedule () : Flow<List<BusSchedule>>
+    @Query("SELECT * from schedule ORDER BY arrival_time ASC")
+    fun getAllBusSchedule () : Flow<List<BusSchedule>>
 }
